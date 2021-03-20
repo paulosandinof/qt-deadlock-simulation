@@ -1,6 +1,5 @@
 #include "trem.h"
 #include <QtCore>
-#include <iostream>
 
 //Construtor
 Trem::Trem(int ID, int x, int y){
@@ -76,6 +75,13 @@ void Trem::run(){
     }
 }
 
+int Trem::get_velocidade(){
+    return this->velocidade;
+}
 
+void Trem::set_velocidade(int valor_slider){
+    int velocidade = 200 - valor_slider;
+    this->velocidade = velocidade;
+}
 
 

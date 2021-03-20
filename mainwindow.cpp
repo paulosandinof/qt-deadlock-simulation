@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QtCore>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -78,4 +79,29 @@ void MainWindow::on_pushButton_2_clicked()
     trem3->terminate();
     trem4->terminate();
     trem5->terminate();
+}
+
+void MainWindow::on_horizontalSlider_valueChanged(int value)
+{
+    trem1->set_velocidade(value);
+}
+
+void MainWindow::on_horizontalSlider_2_valueChanged(int value)
+{
+    trem2->set_velocidade(value);
+}
+
+void MainWindow::on_horizontalSlider_3_valueChanged(int value)
+{
+    trem3->set_velocidade(value);
+}
+
+void MainWindow::on_horizontalSlider_4_valueChanged(int value)
+{
+    trem4->set_velocidade(value);
+}
+
+void MainWindow::on_horizontalSlider_5_valueChanged(int value)
+{
+    trem5->set_velocidade(value);
 }
