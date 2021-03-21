@@ -16,7 +16,6 @@ class Trem: public QThread{
 public:
     Trem(int,int,int,QMutex*);  //construtor
     void run();         //função a ser executada pela thread
-    int get_velocidade();
     void set_velocidade(int valor_slider);
 
 //Cria um sinal
@@ -29,6 +28,7 @@ private:
    int ID;          //ID do trem
    int velocidade;  //Velocidade. É o tempo de dormir em milisegundos entre a mudança de posição do trem
    QMutex *mutex;
+   bool parado;
 };
 
 #endif // TREM_H
