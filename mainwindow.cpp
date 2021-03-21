@@ -8,12 +8,14 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QMutex *mutex = new QMutex[7]();
+
     //Cria o trem com seu (ID, posição X, posição Y)
-    trem1 = new Trem(1,60,30);
-    trem2 = new Trem(2,330,30);
-    trem3 = new Trem(3,600,30);
-    trem4 = new Trem(4,740,280);
-    trem5 = new Trem(5,470,280);
+    trem1 = new Trem(1,60,30,mutex);
+    trem2 = new Trem(2,330,30,mutex);
+    trem3 = new Trem(3,600,30,mutex);
+    trem4 = new Trem(4,740,280,mutex);
+    trem5 = new Trem(5,470,280,mutex);
 
     /*
      * Conecta o sinal UPDATEGUI à função UPDATEINTERFACE.
