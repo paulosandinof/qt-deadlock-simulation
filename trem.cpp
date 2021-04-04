@@ -18,11 +18,13 @@ void Trem::run(){
             switch(ID){
             case 1:     //Trem 1
                 if (x == 310 && y == 30) {
-                    Locks::sem_abc->acquire(1);
-                    Locks::sem_ab->acquire(1);
-                    Locks::sem_a->acquire(1);
-                    Locks::mutex[0].lock();
-                    x+=10;
+                    if (Locks::sem_abc->available() > 0 && Locks::sem_ab->available() > 0 && Locks::sem_a->available() > 0) {
+                        Locks::sem_abc->acquire(1);
+                        Locks::sem_ab->acquire(1);
+                        Locks::sem_a->acquire(1);
+                        Locks::mutex[0].lock();
+                        x+=10;
+                    }
                 } else if(x == 330 && y == 130) {
                     Locks::mutex[2].lock();
                     y+=10;
@@ -30,13 +32,13 @@ void Trem::run(){
                     Locks::mutex[0].unlock();
                     x-=10;
                 } else if (x == 180 && y == 150) {
+                    Locks::mutex[2].unlock();
                     if (Locks::sem_a->available() < 2)
                         Locks::sem_a->release(1);
                     if (Locks::sem_ab->available() < 3)
                         Locks::sem_ab->release(1);
                     if (Locks::sem_abc->available() < 4)
                         Locks::sem_abc->release(1);
-                    Locks::mutex[2].unlock();
                     x-=10;
                 } else if (y == 30 && x < 330) {
                     x+=10;
@@ -51,23 +53,29 @@ void Trem::run(){
                 break;
             case 2:     //Trem 2
                 if (x == 580 && y == 30) {
-                    Locks::sem_abc->acquire(1);
-                    Locks::sem_bc->acquire(1);
-                    Locks::sem_c->acquire(1);
-                    Locks::mutex[1].lock();
-                    x+=10;
+                    if (Locks::sem_abc->available() > 0 && Locks::sem_bc->available() > 0 && Locks::sem_c->available() > 0) {
+                        Locks::sem_abc->acquire(1);
+                        Locks::sem_bc->acquire(1);
+                        Locks::sem_c->acquire(1);
+                        Locks::mutex[1].lock();
+                        x+=10;
+                    }
                 } else if (x == 600 && y == 130) {
-                    Locks::sem_ab->acquire(1);
-                    Locks::sem_b->acquire(1);
-                    Locks::mutex[4].lock();
-                    y+=10;
+                    if (Locks::sem_ab->available() > 0 && Locks::sem_b->available() > 0) {
+                        Locks::sem_ab->acquire(1);
+                        Locks::sem_b->acquire(1);
+                        Locks::mutex[4].lock();
+                        y+=10;
+                    }
                 } else if (x == 580 && y == 150) {
                     Locks::mutex[1].unlock();
                     x-=10;
                 } else if (x == 490 && y == 150) {
-                    Locks::sem_a->acquire(1);
-                    Locks::mutex[3].lock();
-                    x-=10;
+                    if (Locks::sem_a->available() > 0) {
+                        Locks::sem_a->acquire(1);
+                        Locks::mutex[3].lock();
+                        x-=10;
+                    }
                 } else if (x == 450 && y == 150) {
                     Locks::mutex[4].unlock();
                     if (Locks::sem_c->available() < 2)
@@ -105,11 +113,13 @@ void Trem::run(){
                 break;
             case 3:
                 if (x == 760 && y == 150) {
-                    Locks::sem_abc->acquire(1);
-                    Locks::sem_bc->acquire(1);
-                    Locks::sem_c->acquire(1);
-                    Locks::mutex[5].lock();
-                    x-=10;
+                    if (Locks::sem_abc->available() > 0 && Locks::sem_bc->available() > 0 && Locks::sem_c->available() > 0) {
+                        Locks::sem_abc->acquire(1);
+                        Locks::sem_bc->acquire(1);
+                        Locks::sem_c->acquire(1);
+                        Locks::mutex[5].lock();
+                        x-=10;
+                    }
                 } else if (x == 620 && y == 150) {
                     Locks::mutex[1].lock();
                     x-=10;
@@ -138,16 +148,20 @@ void Trem::run(){
                 break;
             case 4:
                 if (x == 490 && y == 280) {
-                    Locks::sem_abc->acquire(1);
-                    Locks::sem_bc->acquire(1);
-                    Locks::sem_ab->acquire(1);
-                    Locks::sem_b->acquire(1);
-                    Locks::mutex[6].lock();
-                    x-=10;
+                    if (Locks::sem_abc->available() > 0 && Locks::sem_bc->available() > 0 && Locks::sem_ab->available() > 0 && Locks::sem_b->available() > 0) {
+                        Locks::sem_abc->acquire(1);
+                        Locks::sem_bc->acquire(1);
+                        Locks::sem_ab->acquire(1);
+                        Locks::sem_b->acquire(1);
+                        Locks::mutex[6].lock();
+                        x-=10;
+                    }
                 } else if (x == 470 && y == 170) {
-                    Locks::sem_c->acquire(1);
-                    Locks::mutex[4].lock();
-                    y-=10;
+                    if (Locks::sem_c->available() > 0) {
+                        Locks::sem_c->acquire(1);
+                        Locks::mutex[4].lock();
+                        y-=10;
+                    }
                 } else if (x == 490 && y == 150) {
                     Locks::mutex[6].unlock();
                     x+=10;
@@ -183,16 +197,20 @@ void Trem::run(){
                 break;
             case 5:
                 if (x == 200 && y == 170) {
-                    Locks::sem_abc->acquire(1);
-                    Locks::sem_ab->acquire(1);
-                    Locks::sem_a->acquire(1);
-                    Locks::mutex[2].lock();
-                    y-=10;
+                    if (Locks::sem_abc->available() > 0 && Locks::sem_ab->available() > 0 && Locks::sem_a->available() > 0) {
+                        Locks::sem_abc->acquire(1);
+                        Locks::sem_ab->acquire(1);
+                        Locks::sem_a->acquire(1);
+                        Locks::mutex[2].lock();
+                        y-=10;
+                    }
                 } else if (x == 310 && y == 150) {
-                    Locks::sem_bc->acquire(1);
-                    Locks::sem_b->acquire(1);
-                    Locks::mutex[3].lock();
-                    x+=10;
+                    if (Locks::sem_bc->available() > 0 && Locks::sem_b->available() > 0) {
+                        Locks::sem_bc->acquire(1);
+                        Locks::sem_b->acquire(1);
+                        Locks::mutex[3].lock();
+                        x+=10;
+                    }
                 } else if (x == 350 && y == 150) {
                     Locks::mutex[2].unlock();
                     x+=10;
@@ -214,9 +232,6 @@ void Trem::run(){
                         Locks::sem_bc->release(1);
                     if (Locks::sem_abc->available() < 4)
                         Locks::sem_abc->release(1);
-                    x-=10;
-                } else if (x == 450 && y == 280) {
-                    Locks::mutex[6].unlock();
                     x-=10;
                 } else if (y == 280 && x > 200) {
                     x-=10;
